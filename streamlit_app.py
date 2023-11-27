@@ -39,17 +39,16 @@ def process_file(uploaded_file):
     # Normalize the JSON using pandas
     data = pd.json_normalize(matches)
 
-    """ 
-    Gathering the Data
-    We are going to pull apart each type of "like" you can receive on the app from the
-    messy JSON file that Hinge sends us.
-    Basically, the logic I'm using is as follows:
+
+    # Gathering the Data
+    # We are going to pull apart each type of "like" you can receive on the app from the
+    # messy JSON file that Hinge sends us.
+    # Basically, the logic I'm using is as follows:
         
-        - If "like" is not null, and "match" is not null, then this is where we sent a like and got a match.
-        - If "like" is not null, and "match" is null, then this is where we sent a like and got no match.
-        - If "match" is not null, and "like" is null, then this is where we received a like and got a match.
-        - If "match" is null, and "like" is null, then this is where we redeived a like but did not match.
-    """
+    #     - If "like" is not null, and "match" is not null, then this is where we sent a like and got a match.
+    #     - If "like" is not null, and "match" is null, then this is where we sent a like and got no match.
+    #     - If "match" is not null, and "like" is null, then this is where we received a like and got a match.
+    #     - If "match" is null, and "like" is null, then this is where we redeived a like but did not match.
 
     outgoing_matches = data.loc[(data["like"].isna() == False) & (data["match"].isna() == False)].reset_index()
     outgoing_no_matches = data.loc[(data["like"].isna() == False) & (data["match"].isna() == True)].reset_index()
